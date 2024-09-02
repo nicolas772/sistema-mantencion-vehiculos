@@ -1,2 +1,5 @@
-# sistema-mantencion-vehiculos
-Sistema de mantención y gestión de vehiculos y dueños de vehiculos
+# Sistema de mantención de vehiculos
+
+Front-end: React
+Backend: Laravel
+BBDD: MySQL
