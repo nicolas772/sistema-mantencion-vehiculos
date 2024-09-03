@@ -6,17 +6,17 @@ import { FaCar } from "react-icons/fa";
 export default function Sidebar() {
   return (
     <SidebarFB aria-label="Sidebar with logo branding example">
-      <SidebarFB.Logo href="#" img="/rebitsLogo.webp" imgAlt="reBits logo">
+      <SidebarFB.Logo href="/" img="/rebitsLogo.webp" imgAlt="reBits logo">
       </SidebarFB.Logo>
       <SidebarFB.Items>
         <SidebarFB.ItemGroup>
-          <SidebarFB.Item href="#" icon={HiHome}>
+          <SidebarFB.Item href="/" icon={HiHome}>
             Inicio
           </SidebarFB.Item>
-          <SidebarFB.Item href="#" icon={HiUser}>
+          <SidebarFB.Item href="/users" icon={HiUser}>
             Usuarios
           </SidebarFB.Item>
-          <SidebarFB.Item href="#" icon={FaCar}>
+          <SidebarFB.Item href="/vehicles" icon={FaCar}>
             Vehiculos
           </SidebarFB.Item>
         </SidebarFB.ItemGroup>
