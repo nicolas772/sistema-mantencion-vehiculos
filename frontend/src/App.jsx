@@ -4,7 +4,7 @@ function App() {
 
   return (
     <>
-      <Sidebar></Sidebar>
+      <Sidebar />
     </>
   )
 }
