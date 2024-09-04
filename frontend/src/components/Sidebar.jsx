@@ -18,7 +18,7 @@ export default function Sidebar() {
             Propietarios
           </SidebarFB.Item>
           <SidebarFB.Item href="/vehicles" icon={FaCar}>
-            Vehiculos
+            Vehículos
           </SidebarFB.Item>
         </SidebarFB.ItemGroup>
       </SidebarFB.Items>

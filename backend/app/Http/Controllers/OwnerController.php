@@ -28,7 +28,7 @@ class OwnerController extends Controller
 
         if ($validator->fails()) {
             $data = [
-                'messsage' => 'Error en la validación de los datos',
+                'message' => 'Error en la validación de los datos',
                 'errors' => $validator->errors(),
                 'status' => 400
             ];
