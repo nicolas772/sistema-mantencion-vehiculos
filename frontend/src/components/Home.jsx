@@ -15,8 +15,8 @@ export default function Home() {
   }
   
   return (
-    <div className="mx-5 flex flex-col items-center justify-center h-screen bg-gray-100 text-gray-700">
-      <h1 className="text-3xl font-semibold mb-8">Bienvenido al Sistema de Mantención de Vehículos 🚙</h1>
+    <div className="mx-5 flex flex-col items-center justify-center h-screen bg-gray-100">
+      <h1 className="text-3xl font-semibold mb-8 text-cyan-900">Bienvenido al Sistema de Mantención de Vehículos 🚙</h1>
       {
         status 
         ? (<PostUpload message={message} status={status}/>) 

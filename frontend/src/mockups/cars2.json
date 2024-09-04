@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "brand": "Toyota",
+    "model": "Corolla",
+    "license_plate": "ABC123",
+    "year": 2019,
+    "owner": "John Doe",
+    "price": 15000
+  },
+  {
+    "id": 2,
+    "brand": "Honda",
+    "model": "Civic",
+    "license_plate": "XYZ789",
+    "year": 2020,
+    "owner": "Jane Smith",
+    "price": 18000
+  },
+  {
+    "id": 3,
+    "brand": "Ford",
+    "model": "Focus",
+    "license_plate": "MNO456",
+    "year": 2018,
+    "owner": "Mike Johnson",
+    "price": 13000
+  },
+  {
+    "id": 4,
+    "brand": "Chevrolet",
+    "model": "Malibu",
+    "license_plate": "DEF234",
+    "year": 2017,
+    "owner": "Emily Davis",
+    "price": 14000
+  },
+  {
+    "id": 5,
+    "brand": "Nissan",
+    "model": "Altima",
+    "license_plate": "GHI567",
+    "year": 2021,
+    "owner": "Chris Brown",
+    "price": 20000
+  },
+  {
+    "id": 6,
+    "brand": "Hyundai",
+    "model": "Elantra",
+    "license_plate": "JKL890",
+    "year": 2022,
+    "owner": "Laura Wilson",
+    "price": 21000
+  },
+  {
+    "id": 7,
+    "brand": "Volkswagen",
+    "model": "Jetta",
+    "license_plate": "PQR123",
+    "year": 2016,
+    "owner": "Robert Martinez",
+    "price": 12000
+  },
+  {
+    "id": 8,
+    "brand": "Kia",
+    "model": "Optima",
+    "license_plate": "STU456",
+    "year": 2015,
+    "owner": "David Lee",
+    "price": 11000
+  },
+  {
+    "id": 9,
+    "brand": "Subaru",
+    "model": "Impreza",
+    "license_plate": "VWX789",
+    "year": 2021,
+    "owner": "Paul Walker",
+    "price": 22000
+  },
+  {
+    "id": 10,
+    "brand": "Mazda",
+    "model": "3",
+    "license_plate": "YZA234",
+    "year": 2019,
+    "owner": "Sarah Thompson",
+    "price": 16000
+  },
+  {
+    "id": 11,
+    "brand": "BMW",
+    "model": "3 Series",
+    "license_plate": "BCD567",
+    "year": 2020,
+    "owner": "Kevin White",
+    "price": 35000
+  },
+  {
+    "id": 12,
+    "brand": "Mercedes-Benz",
+    "model": "C-Class",
+    "license_plate": "EFG890",
+    "year": 2021,
+    "owner": "Sophia Garcia",
+    "price": 40000
+  },
+  {
+    "id": 13,
+    "brand": "Audi",
+    "model": "A4",
+    "license_plate": "HIJ123",
+    "year": 2018,
+    "owner": "James Lewis",
+    "price": 33000
+  },
+  {
+    "id": 14,
+    "brand": "Lexus",
+    "model": "IS",
+    "license_plate": "KLM456",
+    "year": 2019,
+    "owner": "Olivia Clark",
+    "price": 37000
+  },
+  {
+    "id": 15,
+    "brand": "Tesla",
+    "model": "Model 3",
+    "license_plate": "NOP789",
+    "year": 2022,
+    "owner": "William Allen",
+    "price": 45000
+  },
+  {
+    "id": 16,
+    "brand": "Volvo",
+    "model": "S60",
+    "license_plate": "QRS234",
+    "year": 2017,
+    "owner": "Emma Hill",
+    "price": 29000
+  },
+  {
+    "id": 17,
+    "brand": "Jaguar",
+    "model": "XE",
+    "license_plate": "TUV567",
+    "year": 2018,
+    "owner": "Mason King",
+    "price": 38000
+  },
+  {
+    "id": 18,
+    "brand": "Acura",
+    "model": "TLX",
+    "license_plate": "WXY890",
+    "year": 2021,
+    "owner": "Mia Wright",
+    "price": 32000
+  },
+  {
+    "id": 19,
+    "brand": "Infiniti",
+    "model": "Q50",
+    "license_plate": "ZAB123",
+    "year": 2019,
+    "owner": "Elijah Scott",
+    "price": 36000
+  },
+  {
+    "id": 20,
+    "brand": "Cadillac",
+    "model": "ATS",
+    "license_plate": "CDE456",
+    "year": 2017,
+    "owner": "Abigail Young",
+    "price": 31000
+  }
+]

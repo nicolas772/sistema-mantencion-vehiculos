@@ -17,6 +17,9 @@ export default function Dropzone({handleMessage, handleStatus}) {
     if (selectedFile) {
       const formData = new FormData();
       formData.append("archivo", selectedFile);
+
+      // aqui enviar formData en el body de la peticion
+
       handleMessage("El archivo fue subido correctamente.")
       handleStatus("success") // o "error"
     }

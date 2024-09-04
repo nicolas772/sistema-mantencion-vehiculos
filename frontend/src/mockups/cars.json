@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "brand": "Toyota",
+    "model": "Corolla",
+    "license_plate": "ABC1234",
+    "year": 2018,
+    "owner": "Juan Pérez",
+    "price": 12000
+  },
+  {
+    "id": 2,
+    "brand": "Honda",
+    "model": "Civic",
+    "license_plate": "DEF5678",
+    "year": 2020,
+    "owner": "María González",
+    "price": 15000
+  },
+  {
+    "id": 3,
+    "brand": "Ford",
+    "model": "Focus",
+    "license_plate": "GHI9012",
+    "year": 2019,
+    "owner": "Carlos Sánchez",
+    "price": 14000
+  },
+  {
+    "id": 4,
+    "brand": "Chevrolet",
+    "model": "Cruze",
+    "license_plate": "JKL3456",
+    "year": 2021,
+    "owner": "Ana Martínez",
+    "price": 16000
+  },
+  {
+    "id": 5,
+    "brand": "Mazda",
+    "model": "3",
+    "license_plate": "MNO7890",
+    "year": 2017,
+    "owner": "Pedro López",
+    "price": 11000
+  }
+]
