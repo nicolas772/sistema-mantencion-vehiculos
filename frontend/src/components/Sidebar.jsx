@@ -16,8 +16,8 @@ export default function Sidebar() {
           <SidebarFB.Item href="/" icon={HiHome}>
             Inicio
           </SidebarFB.Item>
-          <SidebarFB.Item href="/users" icon={HiUser}>
-            Usuarios
+          <SidebarFB.Item href="/owners" icon={HiUser}>
+            Propietarios
           </SidebarFB.Item>
           <SidebarFB.Item href="/vehicles" icon={FaCar}>
             Vehiculos

@@ -1,13 +1,13 @@
-import TableMaterial from "./TableMaterial";
+import TableVehicles from "./TableVehicles";
 
 export default function Vehicles() {
   return (
     <div className="m-10 flex flex-col bg-gray-100">
       <h1 className="text-2xl font-semibold mb-2 text-cyan-900">Vehículos 🚙</h1>
       <p className="text-sm text-gray-600 mb-8">
-        Aquí puedes ver una lista de todos los vehículos registrados en el sistema.
+        Puedes hacer click en cada fila para ingresar al detalle del vehículo.
       </p>
-      <TableMaterial></TableMaterial>
+      <TableVehicles />
     </div>
   );
 }

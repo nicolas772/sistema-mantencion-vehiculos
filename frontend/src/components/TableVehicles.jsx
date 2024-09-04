@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import { MRT_Localization_ES } from 'mantine-react-table/locales/es';
-import cars from '../mockups/cars2.json';
+import { useNavigate } from 'react-router-dom';
+import cars from '../mockups/cars.json';
 
-const TableMaterial = () => {
-  //should be memoized or stable
+export default function TableVehicles () {
+  const navigate = useNavigate();
   const columns = useMemo(
     () => [
       {
@@ -30,6 +31,7 @@ const TableMaterial = () => {
       {
         accessorKey: 'price',
         header: 'Precio',
+        Cell: ({ cell }) => `$${cell.getValue()}`
       },
     ],
     [],
@@ -42,9 +44,11 @@ const TableMaterial = () => {
     mantineTableContainerProps: { sx: { maxHeight: '350px' } },
     enableStickyHeader: true,
     initialState: { density: 'xs' },
+    mantineTableBodyRowProps: ({ row }) => ({
+      onClick: () => navigate(`/vehicles/${row.original.id}`), // Redirigir a una URL específica basada en el ID
+      sx: { cursor: 'pointer' }, // Cambiar el cursor para indicar que la fila es clicable
+    }),
   });
 
   return <MantineReactTable table={table}/>;
 };
-
-export default TableMaterial;
