@@ -1,27 +1,44 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import { MRT_Localization_ES } from 'mantine-react-table/locales/es';
 import { useNavigate } from 'react-router-dom';
-import owners from '../mockups/owners.json'
+import OwnerService from '../services/owner.service';
+import { Spinner } from 'flowbite-react';
 
-export default function TableOwners () {
+export default function TableOwners() {
   const navigate = useNavigate();
+  const [owners, setOwners] = useState([]);
+  const [loading, setLoading] = useState(true)
+
+  
+  useEffect(() => {
+    OwnerService.getAllOwners()
+      .then((response) => {
+        setOwners(response.data);
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error('Error fetching owners:', error);
+        setLoading(false)
+      });
+  }, []);
+
   const columns = useMemo(
     () => [
       {
         accessorKey: 'name',
         header: 'Nombre',
-        size: 50, //small column
+        size: 50,
       },
       {
         accessorKey: 'last_name',
         header: 'Apellido',
-        size: 50, //small column
+        size: 50,
       },
       {
         accessorKey: 'email',
         header: 'Correo Electrónico',
-        size: 50, //small column
+        size: 50,
       },
     ],
     [],
@@ -40,5 +57,13 @@ export default function TableOwners () {
     }),
   });
 
-  return <MantineReactTable table={table}/>;
+  return (
+    <>
+      {
+        loading
+        ? (<Spinner className='m-8'/>)
+        : (<MantineReactTable table={table}/>)
+      }
+    </>
+  )
 };

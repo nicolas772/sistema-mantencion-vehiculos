@@ -6,8 +6,13 @@ const createOwner = (newOwner) => {
   return axios.post(API_URL, newOwner)
 }
 
+const getAllOwners = () => {
+  return axios.get(API_URL)
+}
+
 const OwnerService = {
-  createOwner
+  createOwner,
+  getAllOwners
 }
 
 export default OwnerService
