@@ -1,4 +1,5 @@
 import TableOwners from "./TableOwners";
+import { Button } from "flowbite-react";
 
 export default function Owners() {
   return (
@@ -9,6 +10,9 @@ export default function Owners() {
       </p>
       <div className="w-3/4">
         <TableOwners />
+      </div>
+      <div className="flex justify-start my-2">
+        <Button>Crear Propietario</Button>
       </div>
     </div>
   );

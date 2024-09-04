@@ -1,4 +1,5 @@
 import TableVehicles from "./TableVehicles";
+import { Button } from "flowbite-react";
 
 export default function Vehicles() {
   return (
@@ -8,6 +9,9 @@ export default function Vehicles() {
         Puedes hacer click en cada fila para ingresar al detalle del vehículo.
       </p>
       <TableVehicles />
+      <div className="flex justify-start my-2">
+        <Button>Crear Vehículo</Button>
+      </div>
     </div>
   );
 }

@@ -41,7 +41,7 @@ export default function TableVehicles () {
     columns,
     data: cars,
     localization: MRT_Localization_ES,
-    mantineTableContainerProps: { sx: { maxHeight: '350px' } },
+    mantineTableContainerProps: { sx: { maxHeight: '300px' } },
     enableStickyHeader: true,
     initialState: { density: 'xs' },
     mantineTableBodyRowProps: ({ row }) => ({
