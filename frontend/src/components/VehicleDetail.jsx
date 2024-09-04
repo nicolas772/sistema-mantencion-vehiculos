@@ -3,6 +3,7 @@ import { useState } from "react";
 import { HiInformationCircle, HiClipboardList } from "react-icons/hi";
 import owners from '../mockups/owners.json'
 import HistoricTableOwners from "./HistoricTableOwners";
+import { useNavigate } from "react-router-dom";
 
 const initialData = {
   id: 16,
@@ -18,9 +19,9 @@ export default function VehicleDetail() {
   const [car, setCar] = useState(initialData);
   const [originalCar, setOriginalCar] = useState(initialData);
   const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate()
 
   const handleEditClick = () => {
-    console.log(car)
     setOriginalCar(car);
     if (isEditing) {
       // Save changes logic here
@@ -44,6 +45,9 @@ export default function VehicleDetail() {
     }
   };
 
+  const handleComeBack = () => {
+    navigate('/vehicles')
+  }
 
   return (
     <div className="m-10 flex flex-col bg-gray-100">
@@ -51,10 +55,10 @@ export default function VehicleDetail() {
         {originalCar.brand} {originalCar.model}
       </h1>
       <p className="text-sm text-gray-600">
-        Puedes ver y editar la información, además de ver el histórico de dueños.
+        Puedes ver y editar la información del vehículo. Además, puedes ver el histórico de dueños.
       </p>
       <div className="flex gap-2 my-6">
-        <Button>Volver a Vehiculos</Button>
+        <Button onClick={handleComeBack}>Volver a Vehiculos</Button>
         <Button onClick={handleEditClick} disabled={isEditing}>Editar</Button>
         <Button color="failure">Eliminar</Button>
       </div>
@@ -126,7 +130,7 @@ export default function VehicleDetail() {
           </div>
           
         </Tabs.Item>
-        <Tabs.Item title="Histórico" icon={HiClipboardList}>
+        <Tabs.Item title="Histórico Propietarios" icon={HiClipboardList}>
           <HistoricTableOwners></HistoricTableOwners>
         </Tabs.Item>
       </Tabs>

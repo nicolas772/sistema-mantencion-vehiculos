@@ -6,11 +6,9 @@ import { FaCar } from "react-icons/fa";
 export default function Sidebar() {
   return (
     <SidebarFB aria-label="Sidebar with logo branding example">
-      <SidebarFB.Logo href="/" img="/rebitsLogo.webp" imgAlt="reBits logo" className="mb-1">
+      <SidebarFB.Logo href="/" img="/rebitsLogo.webp" imgAlt="reBits logo" className="mt-2 mb-7">
       </SidebarFB.Logo>
-      <a href="/">
-        <p className="mb-7 pl-3 font-normal text-gray-700 text-sm">Mantención de Vehículos</p>
-      </a>
+      
       <SidebarFB.Items>
         <SidebarFB.ItemGroup>
           <SidebarFB.Item href="/" icon={HiHome}>
