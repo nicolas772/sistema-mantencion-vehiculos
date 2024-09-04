@@ -6,6 +6,8 @@ import Home from './components/Home.jsx';
 import Owners from './components/Owners.jsx';
 import Vehicles from './components/Vehicles.jsx';
 import ErrorPage from './components/ErrorPage.jsx';
+import VehicleDetail from './components/VehicleDetail.jsx';
+import OwnerDetail from './components/OwnerDetail.jsx';
 
 import './index.css'
 
@@ -26,7 +28,15 @@ const router = createBrowserRouter([
       {
         path: 'vehicles',
         element: <Vehicles></Vehicles>
-      }
+      },
+      {
+        path: 'vehicles/:id',
+        element: <VehicleDetail />
+      },
+      {
+        path: 'owners/:id',
+        element: <OwnerDetail />
+      },
     ]
   },
 ]);
