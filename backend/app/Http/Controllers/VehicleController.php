@@ -197,4 +197,46 @@ class VehicleController extends Controller
 
         return response()->json($data, 200);
     }
+    
+    public function getHistoricOwnership($id)
+    {
+        $ownershipHistory = VehicleOwnershipHistory::where('vehicle_id', $id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        if ($ownershipHistory->isEmpty()) {
+            return response()->json([
+                'message' => 'No se encontró historial de propietarios para el vehículo especificado.',
+                'status' => 404
+            ], 404);
+        }
+
+        $historicData = $ownershipHistory->map(function ($history, $index) {
+            $owner = Owner::find($history->owner_id);
+            
+            if (!$owner) {
+                return [
+                    'error' => 'Propietario no encontrado',
+                    'status' => 404
+                ];
+            }
+
+            return [
+                'n_owner' => $index + 1,
+                'owner' => [
+                    'name' => $owner->name,
+                    'last_name' => $owner->last_name,
+                    'email' => $owner->email
+                ],
+                'date' => $history->created_at
+            ];
+        });
+
+        return response()->json([
+            'message' => 'Historial de propietarios obtenido exitosamente.',
+            'data' => $historicData,
+            'status' => 200
+        ], 200);
+    }
+
 }

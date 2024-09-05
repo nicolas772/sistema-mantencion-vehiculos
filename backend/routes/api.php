@@ -29,3 +29,6 @@ Route::post('/vehicles', [VehicleController::class, 'store']);
 Route::put('/vehicles/{id}', [VehicleController::class, 'updatePartial']);
 
 Route::delete('/vehicles/{id}', [VehicleController::class, 'delete']);
+
+Route::get('/vehicles/historic/{id}', [VehicleController::class, 'getHistoricOwnership']);
+
