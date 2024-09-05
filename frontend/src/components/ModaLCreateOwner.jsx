@@ -3,7 +3,7 @@ import { Button, Label, Modal, TextInput, Spinner } from "flowbite-react";
 import { useState } from "react";
 import OwnerService from "../services/owner.service";
 
-export default function ModalCreateOwner({ openModal, setOpenModal }) {
+export default function ModalCreateOwner({ openModal, setOpenModal, setReload }) {
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -75,6 +75,7 @@ export default function ModalCreateOwner({ openModal, setOpenModal }) {
       OwnerService.createOwner(formData)
         .then(() => {
           setLoading(false)
+          setReload(true);
           onCloseModal();
         })
         .catch((error) => {

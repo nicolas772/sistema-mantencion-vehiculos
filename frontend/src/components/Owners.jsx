@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TableOwners from "./TableOwners";
 import { Button } from "flowbite-react";
 import ModalCreateOwner from "./ModaLCreateOwner";
@@ -6,10 +6,19 @@ import ModalCreateOwner from "./ModaLCreateOwner";
 export default function Owners() {
 
   const [openModal, setOpenModal] = useState(false);
+  const [reload, setReload] = useState(false)
 
   const handleCreateOwner = () => {
     setOpenModal(true)
   }
+
+  useEffect(() => {
+    if (reload) {
+      window.location.reload()
+    }
+    setReload(false)
+  }, [reload])
+
   return (
     <>
       <div className="m-10 flex flex-col bg-gray-100">
@@ -24,7 +33,7 @@ export default function Owners() {
           <Button onClick={handleCreateOwner}>Crear Propietario</Button>
         </div>
       </div>
-      <ModalCreateOwner openModal={openModal} setOpenModal={setOpenModal}/>
+      <ModalCreateOwner openModal={openModal} setOpenModal={setOpenModal} setReload={setReload} />
     </>
   );
 }
