@@ -15,8 +15,7 @@ const getOwnerByID = (id) => {
 }
 
 const updateOwnerByID = ({id, newOwnerData}) => {
-  const url = API_URL + `/${id}`
-  return axios.put(url, newOwnerData)
+  return axios.put(API_URL + `/${id}`, newOwnerData)
 }
 
 const OwnerService = {

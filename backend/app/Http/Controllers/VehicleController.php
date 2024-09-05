@@ -13,11 +13,32 @@ class VehicleController extends Controller
 {
     public function index()
     {
-        $vehicles = Vehicle::all();
+        // Obtener todos los vehículos junto con la información del propietario
+        $vehicles = Vehicle::with('owner')->get();
+
         if ($vehicles->isEmpty()) {
-            return response()->json(['message' => 'No hay vehiculos registrados'], 404);
+            return response()->json(['message' => 'No hay vehículos registrados'], 404);
         }
-        return response()->json($vehicles, 200);
+
+        // Mapear la colección para incluir solo la información necesaria
+        $data = $vehicles->map(function ($vehicle) {
+            return [
+                'id' => $vehicle->id,
+                'brand' => $vehicle->brand,
+                'model' => $vehicle->model,
+                'license_plate' => $vehicle->license_plate,
+                'year' => $vehicle->year,
+                'price' => $vehicle->price,
+                'owner' => [
+                    'id' => $vehicle->owner_id,
+                    'name' => $vehicle->owner->name,
+                    'last_name' => $vehicle->owner->last_name,
+                    'email' => $vehicle->owner->email,
+                ]
+            ];
+        });
+
+        return response()->json($data, 200);
     }
 
     public function store(Request $request)
@@ -81,11 +102,11 @@ class VehicleController extends Controller
 
     public function show($id)
     {
-        $vehicle = Vehicle::find($id);
+        $vehicle = Vehicle::with('owner')->find($id);
 
         if (!$vehicle) {
             $data = [
-                'messsage' => 'Vehiculo no encontrado',
+                'message' => 'Vehículo no encontrado',
                 'status' => 404
             ];
 
@@ -93,7 +114,20 @@ class VehicleController extends Controller
         }
 
         $data = [
-            'vehicle' => $vehicle,
+            'vehicle' => [
+                'id' => $vehicle->id,
+                'brand' => $vehicle->brand,
+                'model' => $vehicle->model,
+                'license_plate' => $vehicle->license_plate,
+                'year' => $vehicle->year,
+                'price' => $vehicle->price,
+                'owner' => [
+                    'id' => $vehicle->owner_id,
+                    'name' => $vehicle->owner->name,
+                    'last_name' => $vehicle->owner->last_name,
+                    'email' => $vehicle->owner->email,
+                ]
+            ],
             'status' => 200
         ];
 
