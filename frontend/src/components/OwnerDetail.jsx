@@ -53,7 +53,7 @@ export default function VehicleDetail () {
   };
 
   const handleCancelClick = () => {
-    setOwner(originalOwner); // Restore the original values
+    setOwner(originalOwner);
     setIsEditing(false);
   };
 

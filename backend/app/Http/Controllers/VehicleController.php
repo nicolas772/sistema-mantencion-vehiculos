@@ -121,8 +121,8 @@ class VehicleController extends Controller
                 'license_plate' => $vehicle->license_plate,
                 'year' => $vehicle->year,
                 'price' => $vehicle->price,
+                'owner_id' => $vehicle->owner_id,
                 'owner' => [
-                    'id' => $vehicle->owner_id,
                     'name' => $vehicle->owner->name,
                     'last_name' => $vehicle->owner->last_name,
                     'email' => $vehicle->owner->email,
@@ -136,7 +136,7 @@ class VehicleController extends Controller
 
     public function updatePartial(Request $request, $id)
     {
-        $vehicle = Vehicle::find($id);
+        $vehicle = Vehicle::with('owner')->find($id);
 
         if (!$vehicle) {
             $data = [
@@ -181,17 +181,10 @@ class VehicleController extends Controller
         }
 
         if ($request->has('owner_id') && $vehicle->owner_id !== $request->owner_id) {
-            $vehicleHistoric = VehicleOwnershipHistory::create([
+            VehicleOwnershipHistory::create([
                 'vehicle_id' => $vehicle->id,
                 'owner_id' => $request->owner_id
             ]);
-            if (!$vehicleHistoric) {
-                $data = [
-                    'message' => 'Error al cambiar ownership del vehículo',
-                    'status' => 500
-                ];
-                return response()->json($data, 500);
-            }
             $vehicle->owner_id = $request->owner_id;
         }
 
@@ -200,15 +193,30 @@ class VehicleController extends Controller
         }
 
         $vehicle->save();
+        $vehicle->load('owner');
 
         $data = [
-            'message' => 'Vehiculo actualizado',
-            'owner' => $vehicle,
+            'message' => 'Vehículo actualizado',
+            'vehicle' => [
+                'id' => $vehicle->id,
+                'brand' => $vehicle->brand,
+                'model' => $vehicle->model,
+                'license_plate' => $vehicle->license_plate,
+                'year' => $vehicle->year,
+                'price' => $vehicle->price,
+                'owner_id' => $vehicle->owner_id,
+                'owner' => [
+                    'name' => $vehicle->owner->name,
+                    'last_name' => $vehicle->owner->last_name,
+                    'email' => $vehicle->owner->email,
+                ]
+            ],
             'status' => 200
         ];
 
         return response()->json($data, 200);
     }
+
 
     public function delete($id)
     {
