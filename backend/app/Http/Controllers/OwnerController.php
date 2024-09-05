@@ -94,7 +94,7 @@ class OwnerController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'max:255',
             'last_name' => 'max:255',
-            'email' => 'email|unique:owner',
+            'email' => 'email',
         ]);
 
         if ($validator->fails()) {

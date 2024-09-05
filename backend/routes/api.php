@@ -13,7 +13,7 @@ Route::get('/owners/{id}', [OwnerController::class, 'show']);
 
 Route::post('/owners', [OwnerController::class, 'store']);
 
-Route::patch('/owners/{id}', [OwnerController::class, 'updatePartial']);
+Route::put('/owners/{id}', [OwnerController::class, 'updatePartial']);
 
 Route::delete('/owners/{id}', [OwnerController::class, 'delete']);
 

@@ -14,10 +14,16 @@ const getOwnerByID = (id) => {
   return axios.get(API_URL + `/${id}`)
 }
 
+const updateOwnerByID = ({id, newOwnerData}) => {
+  const url = API_URL + `/${id}`
+  return axios.put(url, newOwnerData)
+}
+
 const OwnerService = {
   createOwner,
   getAllOwners,
-  getOwnerByID
+  getOwnerByID,
+  updateOwnerByID
 }
 
 export default OwnerService

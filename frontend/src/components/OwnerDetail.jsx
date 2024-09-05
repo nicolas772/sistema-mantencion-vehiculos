@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import OwnerService from "../services/owner.service";
 
-
 export default function VehicleDetail () {
   const {id} = useParams()
   const [owner, setOwner] = useState({});
@@ -13,6 +12,8 @@ export default function VehicleDetail () {
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
+  const [loading2, setLoading2] = useState(false)
+  const [errorEdit, setErrorEdit] = useState('')
 
   useEffect(() => {
     OwnerService.getOwnerByID(id)
@@ -28,12 +29,26 @@ export default function VehicleDetail () {
   }, []);
 
   const handleEditClick = () => {
-    setOriginalOwner(owner);
     if (isEditing) {
-      // Save changes logic here
-      setIsEditing(false);
+      setLoading2(true)
+      OwnerService.updateOwnerByID({id, newOwnerData: owner})
+      .then((response) => {
+        setOwner(response.data.owner);
+        setOriginalOwner(response.data.owner)
+        setLoading2(false)
+        setIsEditing(false);
+        setErrorEdit('')
+      })
+      .catch((error) => {
+        console.error('Error fetching owners:', error);
+        setErrorEdit('Error al editar. Verifica que tus datos estén correctos.')
+        setOwner(originalOwner);
+        setLoading2(false)
+        setIsEditing(false);
+      });
     } else {
       setIsEditing(true);
+      setErrorEdit('')
     }
   };
 
@@ -89,13 +104,20 @@ export default function VehicleDetail () {
                   </div>
                   <TextInput id="email" type="email" sizing="sm" name="email" value={owner.email} onChange={handleInputChange} disabled={!isEditing}/>
                 </div>
-                
+                {errorEdit && <p className="text-red-500 text-sm">{errorEdit}</p>}
               </div>
             </div>
             {isEditing && (
               <div className="flex gap-2 my-6 justify-end">
-                <Button onClick={handleCancelClick} color="gray">Cancelar</Button>
-                <Button onClick={handleEditClick}>Guardar</Button>
+                {
+                  loading2
+                  ? (<Spinner />)
+                  : (<>
+                      <Button onClick={handleCancelClick} color="gray">Cancelar</Button>
+                      <Button onClick={handleEditClick}>Guardar</Button>
+                    </>
+                  )
+                }
               </div>
             )}
           </div>
