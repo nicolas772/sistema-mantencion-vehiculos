@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\VehicleController;
 
 // Rutas para Owners
 
@@ -19,22 +20,12 @@ Route::delete('/owners/{id}', [OwnerController::class, 'delete']);
 
 // Rutas para Vehiculos
 
-Route::get('/cars', function () {
-    return "Lista de autos";
-});
+Route::get('/vehicles', [VehicleController::class, 'index']);
 
-Route::get('/cars/{id}', function () {
-    return "Obteniendo auto por id";
-});
+Route::get('/vehicles/{id}', [VehicleController::class, 'show']);
 
-Route::post('/cars', function () {
-    return "creando auto";
-});
+Route::post('/vehicles', [VehicleController::class, 'store']);
 
-Route::put('/cars/{id}', function () {
-    return "actualizando auto";
-});
+Route::put('/vehicles/{id}', [VehicleController::class, 'updatePartial']);
 
-Route::delete('/cars/{id}', function () {
-    return "eliminando auto";
-});
+Route::delete('/vehicles/{id}', [VehicleController::class, 'delete']);
