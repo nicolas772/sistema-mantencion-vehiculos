@@ -22,7 +22,7 @@ const getHistoricOwnership = (id) => {
   return axios.put(API_URL + `/historic/${id}`)
 }
 
-const OwnerService = {
+const VehicleService = {
   createVehicle,
   getAllVehicles,
   getVehicleByID,
@@ -30,4 +30,4 @@ const OwnerService = {
   getHistoricOwnership
 }
 
-export default OwnerService
+export default VehicleService
