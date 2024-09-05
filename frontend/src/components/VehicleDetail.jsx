@@ -71,18 +71,9 @@ export default function VehicleDetail() {
   };
 
   const [openModal, setOpenModal] = useState(false);
-  const [reload, setReload] = useState(false)
-
   const handleChangeOwner = () => {
     setOpenModal(true)
   }
-  
-  useEffect(() => {
-    if (reload) {
-      window.location.reload()
-    }
-    setReload(false)
-  }, [reload])
 
   if (loading) {
     return <Spinner className="m-10"/>;
@@ -168,7 +159,7 @@ export default function VehicleDetail() {
           <HistoricTableOwners />
         </Tabs.Item>
       </Tabs>
-      <ModalChangeOwner openModal={openModal} setOpenModal={setOpenModal} setReload={setReload} vehicle_id={id} owner_id={vehicle.owner_id}  />
+      <ModalChangeOwner openModal={openModal} setOpenModal={setOpenModal} vehicle_id={id} owner_id={vehicle.owner_id} setVehicle={setVehicle} />
     </div>
   );
 }
