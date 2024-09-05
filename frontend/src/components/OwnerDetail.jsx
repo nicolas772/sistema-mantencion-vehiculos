@@ -1,20 +1,31 @@
-import { Tabs, Button, TextInput, Label } from "flowbite-react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Tabs, Button, TextInput, Label, Spinner } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import OwnerService from "../services/owner.service";
 
-const initialData = {
-  "id": 1,
-  "name": "John",
-  "last_name": "Doe",
-  "email": "john.doe@example.com"
-}
 
 export default function VehicleDetail () {
-  const [owner, setOwner] = useState(initialData);
-  const [originalOwner, setOriginalOwner] = useState(initialData);
+  const {id} = useParams()
+  const [owner, setOwner] = useState({});
+  const [originalOwner, setOriginalOwner] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    OwnerService.getOwnerByID(id)
+      .then((response) => {
+        setOwner(response.data.owner);
+        setOriginalOwner(response.data.owner)
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error('Error fetching owners:', error);
+        setLoading(false)
+      });
+  }, []);
 
   const handleEditClick = () => {
     setOriginalOwner(owner);
@@ -38,6 +49,10 @@ export default function VehicleDetail () {
 
   const handleComeBack = () => {
     navigate('/owners')
+  }
+
+  if (loading) {
+    return <Spinner className="m-10"/>
   }
 
   return (

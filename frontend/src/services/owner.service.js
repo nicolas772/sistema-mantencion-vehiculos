@@ -10,9 +10,14 @@ const getAllOwners = () => {
   return axios.get(API_URL)
 }
 
+const getOwnerByID = (id) => {
+  return axios.get(API_URL + `/${id}`)
+}
+
 const OwnerService = {
   createOwner,
-  getAllOwners
+  getAllOwners,
+  getOwnerByID
 }
 
 export default OwnerService
