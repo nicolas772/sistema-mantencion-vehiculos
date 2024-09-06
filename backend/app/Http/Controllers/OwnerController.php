@@ -20,6 +20,7 @@ class OwnerController extends Controller
 
     public function store(Request $request)
     {
+        // Validar los datos del request
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255|regex:/^[\p{L}\s]+$/u',
             'last_name' => 'required|max:255|regex:/^[\p{L}\s]+$/u',
@@ -27,35 +28,46 @@ class OwnerController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $data = [
+            return response()->json([
                 'message' => 'Error en la validación de los datos',
                 'errors' => $validator->errors(),
                 'status' => 400
-            ];
-
-            return response()->json($data, 400);
+            ], 400);
         }
 
-        $owner = Owner::create([
-            'name' => $request->name,
-            'last_name' => $request->last_name,
-            'email' => $request->email
-        ]);
+        // Buscar si existe un usuario eliminado con los mismos datos. Email es unico.
+        $owner = Owner::onlyTrashed()
+            ->where('email', $request->email)
+            ->first();
+
+        if ($owner) {
+            // Reactivar el propietario y actualizar los datos
+            $owner->restore();
+            $owner->update([
+                'name' => $request->name,
+                'last_name' => $request->last_name,
+                'email' => $request->email
+            ]);
+        } else {
+            // Crear un nuevo propietario si no se encuentra uno eliminado
+            $owner = Owner::create([
+                'name' => $request->name,
+                'last_name' => $request->last_name,
+                'email' => $request->email
+            ]);
+        }
 
         if (!$owner) {
-            $data = [
-                'message' => 'Error al crear el owner',
+            return response()->json([
+                'message' => 'Error al crear o reactivar el owner',
                 'status' => 500
-            ];
-            return response()->json($data, 500);
+            ], 500);
         }
 
-        $data = [
+        return response()->json([
             'owner' => $owner,
             'status' => 201
-        ];
-
-        return response()->json($data, 201);
+        ], 201);
     }
 
     public function show($id)

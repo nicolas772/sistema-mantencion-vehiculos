@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Owner;
 
 class OwnerFactory extends Factory
 {
@@ -11,6 +12,7 @@ class OwnerFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = Owner::class;
     public function definition(): array
     {
         return [

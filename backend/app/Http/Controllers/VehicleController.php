@@ -48,6 +48,7 @@ class VehicleController extends Controller
 
     public function store(Request $request)
     {
+        // Validar los datos del request
         $validator = Validator::make($request->all(), [
             'brand' => 'required|max:255',
             'model' => 'required|max:255',
@@ -58,52 +59,62 @@ class VehicleController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $data = [
+            return response()->json([
                 'message' => 'Error en la validación de los datos',
                 'errors' => $validator->errors(),
                 'status' => 400
-            ];
-
-            return response()->json($data, 400);
+            ], 400);
         }
 
-        $vehicle = Vehicle::create([
-            'brand' => $request->brand,
-            'model' => $request->model,
-            'license_plate' => $request->license_plate,
-            'year' => $request->year,
-            'owner_id' => $request->owner_id,
-            'price' => $request->price,
-        ]);
+        // Verificar si el vehículo ya está eliminado
+        $vehicle = Vehicle::onlyTrashed()->where('license_plate', $request->license_plate)->first();
 
-        if (!$vehicle) {
-            $data = [
-                'message' => 'Error al crear el vehículo',
-                'status' => 500
-            ];
-            return response()->json($data, 500);
+        if ($vehicle) {
+            // Restaurar el vehículo eliminado y le asigna el nuevo dueño
+            $vehicle->restore();
+            $vehicle->owner_id = $request->owner_id;
+            $vehicle->brand = $request->brand;
+            $vehicle->model = $request->model;
+            $vehicle->year = $request->year;
+            $vehicle->price = $request->price;
+            $vehicle->save();
+        } else {
+            // Crear un nuevo vehículo si no está eliminado
+            $vehicle = Vehicle::create([
+                'brand' => $request->brand,
+                'model' => $request->model,
+                'license_plate' => $request->license_plate,
+                'year' => $request->year,
+                'owner_id' => $request->owner_id,
+                'price' => $request->price,
+            ]);
+
+            if (!$vehicle) {
+                return response()->json([
+                    'message' => 'Error al crear el vehículo',
+                    'status' => 500
+                ], 500);
+            }
         }
-
+        // Crear el registro histórico del vehículo solo si se ha creado un nuevo vehículo
         $vehicleHistoric = VehicleOwnershipHistory::create([
             'vehicle_id' => $vehicle->id,
             'owner_id' => $request->owner_id
         ]);
 
         if (!$vehicleHistoric) {
-            $data = [
-                'message' => 'Error al crear el historico del vehiculo',
+            return response()->json([
+                'message' => 'Error al crear el histórico del vehículo',
                 'status' => 500
-            ];
-            return response()->json($data, 500);
+            ], 500);
         }
 
-        $data = [
+        return response()->json([
             'vehicle' => $vehicle,
             'status' => 201
-        ];
-
-        return response()->json($data, 201);
+        ], 201);
     }
+
 
     public function show($id)
     {
@@ -284,7 +295,7 @@ class VehicleController extends Controller
                     'owner' => [
                         'name' => 'Usuario Eliminado',
                         'last_name' => 'Usuario Eliminado',
-                        'email' => ''
+                        'email' => 'Usuario Eliminado'
                     ],
                     'date' => $history->created_at,
                     'status' => 200

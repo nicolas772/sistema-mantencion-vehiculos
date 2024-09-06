@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 
 class UploadController extends Controller
 {
+    
     public function import(Request $request)
     {
         // Validar que el archivo sea un Excel
@@ -27,6 +28,8 @@ class UploadController extends Controller
             $errors = []; // Array para almacenar los errores
             $ownersCreated = 0;
             $vehiclesCreated = 0;
+            $ownersRestaured = 0;
+            $vehiclesRestaured = 0;
 
             // Leer el archivo Excel
             $import = new class implements ToArray {
@@ -70,10 +73,27 @@ class UploadController extends Controller
                 }
 
                 // Buscar si el propietario ya existe por el correo
-                $owner = Owner::where('email', $email)->first();
+                $owner = Owner::withTrashed()->where('email', $email)->first();
 
-                // Si no existe el propietario, lo creamos
-                if (!$owner) {
+                if ($owner) {
+                    // Restaurar el propietario si está eliminado
+                    if ($owner->trashed()) {
+                        $owner->restore();
+                        // Actualizar el propietario con los nuevos datos
+                        $owner->update([
+                            'name' => $name,
+                            'last_name' => $last_name,
+                        ]);
+                        $ownersRestaured++;
+                    } else {
+                        $errors[] = [
+                            'row' => $index,
+                            'errors' => ['El email ' . $email . ' ya existe.']
+                        ];
+                        continue;
+                    }
+                } else {
+                    // Crear el propietario si no existe
                     $owner = Owner::create([
                         'name' => $name,
                         'last_name' => $last_name,
@@ -107,9 +127,32 @@ class UploadController extends Controller
                 }
 
                 // Verificar si el vehículo ya está registrado por la patente
-                $vehicle = Vehicle::where('license_plate', $license_plate)->first();
+                $vehicle = Vehicle::withTrashed()->where('license_plate', $license_plate)->first();
 
-                if (!$vehicle) {
+                if ($vehicle) {
+                    // Restaurar el vehículo si está eliminado
+                    if ($vehicle->trashed()) {
+                        $vehicle->restore();
+                        // Actualizar el vehículo con los nuevos datos
+                        $vehicle->update([
+                            'brand' => $brand,
+                            'model' => $model,
+                            'year' => $year,
+                            'price' => $price,
+                            'owner_id' => $owner->id,
+                        ]);
+                        VehicleOwnershipHistory::create([
+                            'vehicle_id' => $vehicle->id,
+                            'owner_id' => $owner->id,
+                        ]);
+                        $vehiclesRestaured++;
+                    } else {
+                        $errors[] = [
+                            'row' => $index,
+                            'errors' => ['El vehículo con patente ' . $license_plate . ' ya existe.']
+                        ];
+                    }
+                } else {
                     // Crear el vehículo si no existe
                     $vehicle = Vehicle::create([
                         'brand' => $brand,
@@ -126,21 +169,19 @@ class UploadController extends Controller
                         'vehicle_id' => $vehicle->id,
                         'owner_id' => $owner->id,
                     ]);
-                } else {
-                    // Si el vehículo ya existe, omitirlo
-                    $errors[] = [
-                        'row' => $index,
-                        'errors' => ['El vehículo con patente ' . $license_plate . ' ya existe.']
-                    ];
                 }
             }
+
             Mail::to('narayaurrutia@gmail.com')->send(new ImportNotificationMail($file->getClientOriginalName(), $ownersCreated, $vehiclesCreated, $errors));
+
             // Retornar respuesta con errores si existen
             return response()->json([
                 'message' => 'Proceso completado',
                 'errors' => $errors,
                 'owners_created' => $ownersCreated,
                 'vehicles_created' => $vehiclesCreated,
+                'owners_restaured' => $ownersRestaured,
+                'vehicles_restaured' => $ownersRestaured
             ]);
         }
 
