@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\VehicleController;
 
 // Rutas para Owners
@@ -32,3 +33,6 @@ Route::delete('/vehicles/{id}', [VehicleController::class, 'delete']);
 
 Route::get('/vehicles/historic/{id}', [VehicleController::class, 'getHistoricOwnership']);
 
+// Ruta para carga masiva de Excel
+
+Route::post('/upload', [UploadController::class, 'store']);

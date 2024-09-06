@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { FileInput, Label, Button } from "flowbite-react";
+import UploadService from "../services/upload.service";
 
 export default function Dropzone({handleMessage, handleStatus}) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -16,12 +17,20 @@ export default function Dropzone({handleMessage, handleStatus}) {
   const handleUpload = () => {
     if (selectedFile) {
       const formData = new FormData();
-      formData.append("archivo", selectedFile);
+      formData.append("file", selectedFile);
+      formData.append("fileName", selectedFile.name);
 
-      // aqui enviar formData en el body de la peticion
-
-      handleMessage("El archivo fue subido correctamente.")
-      handleStatus("success") // o "error"
+      UploadService.uploadExcel(formData)
+        .then((response) => {
+          console.log(response)
+          handleMessage("El archivo fue subido correctamente.")
+          handleStatus("success") // o "error"
+        })
+        .catch((error) => {
+          console.log(error)
+          handleMessage("Hubo un error al subir el archivo.")
+          handleStatus("error") // o "error"
+        });
     }
   };
 
