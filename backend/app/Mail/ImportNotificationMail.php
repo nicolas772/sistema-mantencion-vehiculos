@@ -16,12 +16,14 @@ class ImportNotificationMail extends Mailable
     public $fileName;
     public $ownersCreated;
     public $vehiclesCreated;
+    public $errors;
 
-    public function __construct($fileName, $ownersCreated, $vehiclesCreated)
+    public function __construct($fileName, $ownersCreated, $vehiclesCreated, $errors)
     {
         $this->fileName = $fileName;
         $this->ownersCreated = $ownersCreated;
         $this->vehiclesCreated = $vehiclesCreated;
+        $this->errors = $errors;
     }
 
     public function build()
@@ -39,6 +41,7 @@ class ImportNotificationMail extends Mailable
                         'fileName' => $this->fileName,
                         'ownersCreated' => $this->ownersCreated,
                         'vehiclesCreated' => $this->vehiclesCreated,
+                        'errors' => $this->errors,
                     ])
                 ],
                 precedenceBulkHeader: true

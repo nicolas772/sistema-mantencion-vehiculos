@@ -134,7 +134,7 @@ class UploadController extends Controller
                     ];
                 }
             }
-            Mail::to('narayaurrutia@gmail.com')->send(new ImportNotificationMail($file->getClientOriginalName(), $ownersCreated, $vehiclesCreated));
+            Mail::to('narayaurrutia@gmail.com')->send(new ImportNotificationMail($file->getClientOriginalName(), $ownersCreated, $vehiclesCreated, $errors));
             // Retornar respuesta con errores si existen
             return response()->json([
                 'message' => 'Proceso completado',

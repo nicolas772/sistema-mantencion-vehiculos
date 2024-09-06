@@ -31,6 +31,20 @@
             font-size: 0.9em;
             color: #555;
         }
+        .error-list {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .error-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .error-list li {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -41,6 +55,26 @@
         <p><strong>Nombre del archivo:</strong> {{ $fileName }}</p>
         <p><strong>Cantidad de propietarios creados:</strong> {{ $ownersCreated }}</p>
         <p><strong>Cantidad de vehículos creados:</strong> {{ $vehiclesCreated }}</p>
+
+        <!-- Si hay errores, los mostramos -->
+        @if (!empty($errors))
+            <div class="error-list">
+                <h2>Errores durante la carga:</h2>
+                <ul>
+                    @foreach ($errors as $error)
+                        <li>
+                            <strong>Fila {{ $error['row'] }}:</strong>
+                            <ul>
+                                @foreach ($error['errors'] as $errorMessage)
+                                    <li>{{ $errorMessage }}</li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <p>Gracias por usar nuestro sistema.</p>
         <div class="footer">
             <p>Este es un mensaje automático, por favor no responda.</p>
