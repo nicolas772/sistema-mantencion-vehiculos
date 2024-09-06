@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { FileInput, Label, Button } from "flowbite-react";
+import { FileInput, Label, Button, Spinner } from "flowbite-react";
 import UploadService from "../services/upload.service";
 
 export default function Dropzone({handleMessage, handleStatus}) {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [loading, setLoading] = useState(false)
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -16,17 +17,20 @@ export default function Dropzone({handleMessage, handleStatus}) {
 
   const handleUpload = () => {
     if (selectedFile) {
+      setLoading(true)
       const formData = new FormData();
       formData.append("file", selectedFile);
       formData.append("fileName", selectedFile.name);
 
       UploadService.uploadExcel(formData)
         .then((response) => {
+          setLoading(false)
           console.log(response)
           handleMessage("El archivo fue subido correctamente.")
           handleStatus("success") // o "error"
         })
         .catch((error) => {
+          setLoading(false)
           console.log(error)
           handleMessage("Hubo un error al subir el archivo.")
           handleStatus("error") // o "error"
@@ -82,12 +86,21 @@ export default function Dropzone({handleMessage, handleStatus}) {
         </Label>
       )}
       <div className="flex gap-2 my-2 justify-end">
-        <Button color="gray" onClick={handleRemoveFile} disabled={!selectedFile}>
-          Cancelar
-        </Button>
-        <Button onClick={handleUpload} disabled={!selectedFile}>
-          Subir
-        </Button>
+        {
+          loading
+          ? (<Spinner></Spinner>)
+          : (
+            <>
+              <Button color="gray" onClick={handleRemoveFile} disabled={!selectedFile}>
+                Cancelar
+              </Button>
+              <Button onClick={handleUpload} disabled={!selectedFile}>
+                Subir
+              </Button>
+            </>
+          )
+        }
+        
       </div>
     </div>
   );

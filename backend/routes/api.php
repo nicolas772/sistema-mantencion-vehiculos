@@ -35,4 +35,4 @@ Route::get('/vehicles/historic/{id}', [VehicleController::class, 'getHistoricOwn
 
 // Ruta para carga masiva de Excel
 
-Route::post('/upload', [UploadController::class, 'store']);
+Route::post('/upload', [UploadController::class, 'import']);

@@ -217,7 +217,6 @@ class VehicleController extends Controller
         return response()->json($data, 200);
     }
 
-
     public function delete($id)
     {
         $vehicle = Vehicle::find($id);
