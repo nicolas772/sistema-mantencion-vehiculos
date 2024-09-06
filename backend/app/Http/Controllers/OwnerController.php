@@ -21,9 +21,9 @@ class OwnerController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'email' => 'required|email'
+            'name' => 'required|max:255|regex:/^[\p{L}\s]+$/u',
+            'last_name' => 'required|max:255|regex:/^[\p{L}\s]+$/u',
+            'email' => 'required|email|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -92,9 +92,9 @@ class OwnerController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'max:255',
-            'last_name' => 'max:255',
-            'email' => 'email',
+            'name' => 'max:255|regex:/^[\p{L}\s]+$/u',
+            'last_name' => 'max:255|regex:/^[\p{L}\s]+$/u',
+            'email' => 'email|max:255',
         ]);
 
         if ($validator->fails()) {
