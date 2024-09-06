@@ -19,7 +19,7 @@ const updateVehicleByID = ({id, newVehicleData}) => {
 }
 
 const getHistoricOwnership = (id) => {
-  return axios.put(API_URL + `/historic/${id}`)
+  return axios.get(API_URL + `/historic/${id}`)
 }
 
 const VehicleService = {

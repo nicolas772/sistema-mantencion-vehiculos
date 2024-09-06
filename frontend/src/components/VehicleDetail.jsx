@@ -156,7 +156,7 @@ export default function VehicleDetail() {
           </div>
         </Tabs.Item>
         <Tabs.Item title="Histórico Propietarios" icon={HiClipboardList}>
-          <HistoricTableOwners />
+          <HistoricTableOwners id={id}/>
         </Tabs.Item>
       </Tabs>
       <ModalChangeOwner openModal={openModal} setOpenModal={setOpenModal} vehicle_id={id} owner_id={vehicle.owner_id} setVehicle={setVehicle} />
