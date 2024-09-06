@@ -44,11 +44,6 @@ export default function HistoricTableOwners ({id}) {
         accessorKey: 'date',
         header: 'Fecha de Traspaso',
         Cell: ({ cell }) => new Date(cell.getValue()).toLocaleDateString('es-ES')
-      },
-      {
-        accessorKey: 'date',
-        header: 'Hora de Traspaso',
-        Cell: ({ cell }) => new Date(cell.getValue()).toLocaleTimeString('es-ES')
       }
     ],
     [],

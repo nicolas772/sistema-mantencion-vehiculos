@@ -23,4 +23,16 @@ class Owner extends Model
     {
         return $this->hasMany(VehicleOwnershipHistory::class);
     }
+
+    // Si se elimina un owner, se debe hacer soft deleting de los vehiculos asociados
+    protected static function booted()
+    {
+        static::deleting(function ($owner) {
+            if ($owner->isForceDeleting()) {
+                $owner->vehicles()->forceDelete();
+            } else {
+                $owner->vehicles()->delete();
+            }
+        });
+    }
 }

@@ -13,14 +13,14 @@ class VehicleController extends Controller
 {
     public function index()
     {
-        // Obtener todos los vehículos junto con la información del propietario
-        $vehicles = Vehicle::with('owner')->get();
+        $vehicles = Vehicle::with('owner')
+                    ->whereNull('deleted_at')
+                    ->get();
 
         if ($vehicles->isEmpty()) {
             return response()->json(['message' => 'No hay vehículos registrados'], 404);
         }
 
-        // Mapear la colección para incluir solo la información necesaria
         $data = $vehicles->map(function ($vehicle) {
             return [
                 'id' => $vehicle->id,
@@ -29,11 +29,16 @@ class VehicleController extends Controller
                 'license_plate' => $vehicle->license_plate,
                 'year' => $vehicle->year,
                 'price' => $vehicle->price,
-                'owner' => [
-                    'id' => $vehicle->owner_id,
+                'owner' => $vehicle->owner ? [
+                    'id' => $vehicle->owner->id,
                     'name' => $vehicle->owner->name,
                     'last_name' => $vehicle->owner->last_name,
                     'email' => $vehicle->owner->email,
+                ] : [
+                    'id' => -1,
+                    'name' => 'Sin',
+                    'last_name' => 'Propietario',
+                    'email' => '',
                 ]
             ];
         });
@@ -102,7 +107,9 @@ class VehicleController extends Controller
 
     public function show($id)
     {
-        $vehicle = Vehicle::with('owner')->find($id);
+        $vehicle = Vehicle::with('owner')
+                        ->whereNull('deleted_at')
+                        ->find($id);
 
         if (!$vehicle) {
             $data = [
@@ -111,6 +118,10 @@ class VehicleController extends Controller
             ];
 
             return response()->json($data, 404);
+        }
+
+        if ($vehicle->owner && $vehicle->owner->deleted_at !== null) {
+            $vehicle->owner = null;
         }
 
         $data = [
@@ -122,11 +133,11 @@ class VehicleController extends Controller
                 'year' => $vehicle->year,
                 'price' => $vehicle->price,
                 'owner_id' => $vehicle->owner_id,
-                'owner' => [
+                'owner' => $vehicle->owner ? [
                     'name' => $vehicle->owner->name,
                     'last_name' => $vehicle->owner->last_name,
                     'email' => $vehicle->owner->email,
-                ]
+                ] : null
             ],
             'status' => 200
         ];
@@ -228,7 +239,7 @@ class VehicleController extends Controller
             ];
             return response()->json($data, 404);
         }
-
+        //Soft Deleting
         $vehicle->delete();
 
         $data = [
@@ -253,12 +264,30 @@ class VehicleController extends Controller
         }
 
         $historicData = $ownershipHistory->map(function ($history, $index) {
-            $owner = Owner::find($history->owner_id);
-            
+            // Incluir propietarios eliminados con soft delete
+            $owner = Owner::withTrashed()->find($history->owner_id); 
+
             if (!$owner) {
                 return [
+                    'n_owner' => $index + 1,
+                    'owner' => null,
                     'error' => 'Propietario no encontrado',
+                    'date' => $history->created_at,
                     'status' => 404
+                ];
+            }
+
+            // Verificar si el propietario ha sido eliminado con soft delete
+            if ($owner->trashed()) {
+                return [
+                    'n_owner' => $index + 1,
+                    'owner' => [
+                        'name' => 'Usuario Eliminado',
+                        'last_name' => 'Usuario Eliminado',
+                        'email' => ''
+                    ],
+                    'date' => $history->created_at,
+                    'status' => 200
                 ];
             }
 
@@ -269,7 +298,8 @@ class VehicleController extends Controller
                     'last_name' => $owner->last_name,
                     'email' => $owner->email
                 ],
-                'date' => $history->created_at
+                'date' => $history->created_at,
+                'status' => 200
             ];
         });
 
