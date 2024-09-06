@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FileInput, Label, Button, Spinner } from "flowbite-react";
 import UploadService from "../services/upload.service";
 
-export default function Dropzone({handleMessage, handleStatus}) {
+export default function Dropzone({ handleStatus, setResponseDetail}) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false)
 
@@ -17,26 +17,29 @@ export default function Dropzone({handleMessage, handleStatus}) {
 
   const handleUpload = () => {
     if (selectedFile) {
-      setLoading(true)
+      setLoading(true);
       const formData = new FormData();
       formData.append("file", selectedFile);
       formData.append("fileName", selectedFile.name);
-
+  
       UploadService.uploadExcel(formData)
         .then((response) => {
-          setLoading(false)
-          console.log(response)
-          handleMessage("El archivo fue subido correctamente.")
-          handleStatus("success") // o "error"
+          setLoading(false);
+          setResponseDetail(response.data);
+          if (response.data.errors.length > 0) {
+            handleStatus("warning");
+          } else {
+            handleStatus("success");
+          }
         })
         .catch((error) => {
-          setLoading(false)
-          console.log(error)
-          handleMessage("Hubo un error al subir el archivo.")
-          handleStatus("error") // o "error"
+          setLoading(false);
+          console.error(error);
+          handleStatus("error");
         });
     }
   };
+  
 
   return (
     <div className="w-3/5">
