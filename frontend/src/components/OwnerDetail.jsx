@@ -66,6 +66,20 @@ export default function VehicleDetail () {
     navigate('/owners')
   }
 
+  const handleDelete = () => {
+    setLoading(true)
+    OwnerService.deleteOwnerByID(id)
+      .then(() => {
+        navigate('/owners')
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error('Error fetching owners:', error);
+        alert('Error al eliminar Propietario, intente nuevamente')
+        setLoading(false)
+      });
+  }
+
   if (loading) {
     return <Spinner className="m-10"/>
   }
@@ -79,7 +93,7 @@ export default function VehicleDetail () {
       <div className="flex gap-2 my-6">
         <Button onClick={handleComeBack}>Volver a Propietarios</Button>
         <Button onClick={handleEditClick} disabled={isEditing}>Editar</Button>
-        <Button color="failure">Eliminar</Button>
+        <Button onClick={handleDelete} color="failure">Eliminar</Button>
       </div>
       <Tabs aria-label="Default tabs" variant="default">
       <Tabs.Item active title="Información" icon={HiInformationCircle}>

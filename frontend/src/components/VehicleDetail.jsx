@@ -70,6 +70,20 @@ export default function VehicleDetail() {
     navigate('/vehicles');
   };
 
+  const handleDelete = () => {
+    setLoading(true)
+    VehicleService.deleteVehicleByID(id)
+      .then(() => {
+        navigate('/vehicles')
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error('Error fetching owners:', error);
+        alert('Error al eliminar Vehiculo, intente nuevamente')
+        setLoading(false)
+      });
+  }
+
   const [openModal, setOpenModal] = useState(false);
   const handleChangeOwner = () => {
     setOpenModal(true)
@@ -99,7 +113,7 @@ export default function VehicleDetail() {
         <Button onClick={handleComeBack}>Volver a Vehiculos</Button>
         <Button onClick={handleEditClick} disabled={isEditing}>Editar</Button>
         <Button onClick={handleChangeOwner} disabled={isEditing}>Cambiar Propietario</Button>
-        <Button color="failure">Eliminar</Button>
+        <Button onClick={handleDelete} color="failure">Eliminar</Button>
       </div>
       <Tabs aria-label="Default tabs" variant="default">
         <Tabs.Item active title="Información" icon={HiInformationCircle}>

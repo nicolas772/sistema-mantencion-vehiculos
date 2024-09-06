@@ -22,12 +22,17 @@ const getHistoricOwnership = (id) => {
   return axios.get(API_URL + `/historic/${id}`)
 }
 
+const deleteVehicleByID = (id) => {
+  return axios.delete(API_URL + `/${id}`)
+}
+
 const VehicleService = {
   createVehicle,
   getAllVehicles,
   getVehicleByID,
   updateVehicleByID,
-  getHistoricOwnership
+  getHistoricOwnership,
+  deleteVehicleByID
 }
 
 export default VehicleService

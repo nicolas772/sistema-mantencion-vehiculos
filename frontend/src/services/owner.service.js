@@ -18,11 +18,16 @@ const updateOwnerByID = ({id, newOwnerData}) => {
   return axios.put(API_URL + `/${id}`, newOwnerData)
 }
 
+const deleteOwnerByID = (id) => {
+  return axios.delete(API_URL + `/${id}`)
+}
+
 const OwnerService = {
   createOwner,
   getAllOwners,
   getOwnerByID,
-  updateOwnerByID
+  updateOwnerByID,
+  deleteOwnerByID
 }
 
 export default OwnerService
