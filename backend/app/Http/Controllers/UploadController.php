@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\ToArray;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\ImportNotificationMail;
+use Illuminate\Support\Facades\Mail;
 
 class UploadController extends Controller
 {
@@ -134,7 +134,7 @@ class UploadController extends Controller
                     ];
                 }
             }
-            
+            Mail::to('narayaurrutia@gmail.com')->send(new ImportNotificationMail($file->getClientOriginalName(), $ownersCreated, $vehiclesCreated));
             // Retornar respuesta con errores si existen
             return response()->json([
                 'message' => 'Proceso completado',
