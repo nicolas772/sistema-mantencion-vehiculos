@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import VehicleService from "../services/vehicle.service";
 import OwnerService from "../services/owner.service";
 
-export default function ModalChangeOwner({ openModal, setOpenModal, vehicle_id, owner_id, setVehicle }) {
+export default function ModalChangeOwner({ openModal, setOpenModal, vehicle_id, owner_id, setVehicle, setReload }) {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(true);
   const [formData, setFormData] = useState({owner_id});
@@ -57,8 +57,8 @@ export default function ModalChangeOwner({ openModal, setOpenModal, vehicle_id, 
       VehicleService.updateVehicleByID({id: vehicle_id, newVehicleData: formData})
         .then((response) => {
           setLoading(false);
-          // setReload(true);
           setVehicle(response.data.vehicle)
+          setReload(true);
           onCloseModal();
         })
         .catch((error) => {
