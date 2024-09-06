@@ -25,7 +25,9 @@ export default function Vehicles() {
         <p className="text-sm text-gray-600 mb-8">
           Puedes hacer click en cada fila para ingresar al detalle del vehículo.
         </p>
-        <TableVehicles />
+        <div className="w-11/12">
+          <TableVehicles />
+        </div>
         <div className="flex justify-start my-2">
           <Button onClick={handleCreateVehicle}>Crear Vehículo</Button>
         </div>

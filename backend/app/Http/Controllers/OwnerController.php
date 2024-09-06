@@ -141,8 +141,8 @@ class OwnerController extends Controller
             return response()->json($data, 404);
         }
 
+        // Soft Deleting
         $owner->delete();
-
         $data = [
             'message' => 'Owner eliminado',
             'status' => 200
