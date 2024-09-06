@@ -90,7 +90,6 @@ class UploadController extends Controller
                             'row' => $index,
                             'errors' => ['El email ' . $email . ' ya existe.']
                         ];
-                        continue;
                     }
                 } else {
                     // Crear el propietario si no existe
