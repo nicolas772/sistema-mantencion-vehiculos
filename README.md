@@ -41,7 +41,7 @@ Instala además las dependencias de Node.js:
 npm install
 ```
 
-Luego, mira la base de datos con:
+Luego, migra la base de datos con:
 
 ```bash
 php artisan migrate
@@ -53,7 +53,7 @@ Por último, inicia el servidor de desarrollo con el comando:
 php artisan serve
 ```
 
-### 3. Configuración de Backend
+### 3. Configuración de Frontend
 
 En otra ventana de terminal, ya ubicado en el directorio de este repositorio, accede a la carpeta de frontend
 
