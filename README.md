@@ -1,6 +1,6 @@
 # Laravel + React Application
 
-Este es un proyecto basado en el framework Laravel como Backend y React para Frontend. Aquí encontrarás los pasos para configurarlo y ejecutarlo desde cero.
+Este es un proyecto de sistema de mantención de vehiculos y propietarios, utilizando el framework Laravel como Backend y React para Frontend. Aquí encontrarás los pasos para configurarlo y ejecutarlo desde cero.
 
 ## Requisitos previos
 
